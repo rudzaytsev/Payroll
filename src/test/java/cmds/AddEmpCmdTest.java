@@ -1,12 +1,22 @@
 package cmds;
 
 
+import domain.DB;
+import domain.Employee;
+import org.junit.After;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
+import static org.junit.Assert.assertEquals;
+
 
 public class AddEmpCmdTest {
+
+  @After
+  public void tearDown() throws Exception {
+    DB.getInstance().clearDB();
+  }
 
   @Rule
   public ExpectedException expectedException = ExpectedException.none();
@@ -125,10 +135,25 @@ public class AddEmpCmdTest {
     command.validate();
   }
 
-  /*
+
   @Test
   public void testExecute() throws Exception {
+    String commandStr = "AddEmp 1 \"David Cameron\" \"Downing Street 5, London, England\" C 1000 200";
+    Command command = new AddEmpCmd(commandStr);
+    command.validate();
+    command.execute();
+    DB db = DB.getInstance();
+    Employee employee = db.findBy(1);
+    System.out.println(employee.id);
+    System.out.println(employee.name);
+    System.out.println(employee.address);
+    System.out.println(employee.paymentStrategy);
+    Employee expected = new Employee(1,"\"David Cameron\"",
+                                     "\"Downing Street 5, London, England\"");
+    System.out.println(expected.equals(employee));
+    assertEquals(expected, employee);
+    assertEquals("C:1000:200", employee.paymentStrategy);
 
   }
-  */
+
 }

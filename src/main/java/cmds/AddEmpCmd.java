@@ -2,6 +2,8 @@ package cmds;
 
 
 
+import domain.DB;
+import domain.Employee;
 import domain.PaymentTypes;
 
 import static domain.PaymentTypes.*;
@@ -101,6 +103,14 @@ public class AddEmpCmd extends AbstractCommand {
 
   @Override
   public void execute() {
+    DB db = DB.getInstance();
+    Employee employee = new Employee(employeeId, employeeName, employeeAddress);
+    employee.paymentStrategy = paymentType + ":" + salary;
+    if (PaymentTypes.COMMISSIONED.isSame(paymentType))
+      employee.paymentStrategy += (":" + commissionRate);
+
+    db.save(employee);
+
 
   }
 }
