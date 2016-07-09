@@ -42,7 +42,8 @@ public abstract class AbstractCommand implements Command {
         String begin = cmdPart + COMMAND_PARTS_SEPARATOR;
         builder = new StringBuilder(begin);
         openedQuotes = true;
-      } else if (cmdPart.endsWith(QUOTE) && openedQuotes) {
+      }
+      else if (cmdPart.endsWith(QUOTE) && openedQuotes) {
         builder.append(cmdPart);
         commandParts.add(builder.toString());
         openedQuotes = false;
