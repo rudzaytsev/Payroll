@@ -21,17 +21,22 @@ public class Employee {
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
+    if (!(o instanceof Employee)) return false;
 
     Employee employee = (Employee) o;
 
+    if (!address.equals(employee.address)) return false;
     if (!id.equals(employee.id)) return false;
+    if (!name.equals(employee.name)) return false;
 
     return true;
   }
 
   @Override
   public int hashCode() {
-    return id.hashCode();
+    int result = id.hashCode();
+    result = 31 * result + name.hashCode();
+    result = 31 * result + address.hashCode();
+    return result;
   }
 }
