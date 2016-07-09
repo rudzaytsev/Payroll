@@ -1,7 +1,6 @@
 package cmds;
 
 
-import com.google.common.base.Joiner;
 import com.google.common.base.Splitter;
 
 import java.util.ArrayList;
@@ -13,23 +12,31 @@ public abstract class AbstractCommand implements Command {
 
   public static final String QUOTE = "\"";
 
-  protected List<String> args;
+  protected String commandName;
+
+  protected List<String> args = new ArrayList<>();
 
   public AbstractCommand(String cmd) {
-    args = toArgs(cmd);
+    List<String> cmdParts = toCommandParts(cmd);
+    if (!cmdParts.isEmpty()) {
+      commandName = cmdParts.get(0);
+      if (cmdParts.size() > 2) {
+        args = cmdParts.subList(1, cmdParts.size());
+      }
+    }
 
   }
 
-  public static List<String> toArgs(String cmd) {
+  public static List<String> toCommandParts(String cmd) {
     List<String> cmdParts = Splitter.on(COMMAND_PARTS_SEPARATOR).trimResults().
                                      omitEmptyStrings().splitToList(cmd);
 
-    List<String> args = new ArrayList<>();
+    List<String> commandParts = new ArrayList<>();
     StringBuilder builder = new StringBuilder();
     boolean openedQuotes = false;
     for (String cmdPart : cmdParts) {
       if (inQuotes(cmdPart) && !openedQuotes) {
-        args.add(cmdPart);
+        commandParts.add(cmdPart);
       }
       else if (cmdPart.startsWith(QUOTE) && !openedQuotes) {
         String begin = cmdPart + COMMAND_PARTS_SEPARATOR;
@@ -37,17 +44,17 @@ public abstract class AbstractCommand implements Command {
         openedQuotes = true;
       } else if (cmdPart.endsWith(QUOTE) && openedQuotes) {
         builder.append(cmdPart);
-        args.add(builder.toString());
+        commandParts.add(builder.toString());
         openedQuotes = false;
       }
       else if (openedQuotes) {
         builder.append(cmdPart + COMMAND_PARTS_SEPARATOR);
       }
       else {
-        args.add(cmdPart);
+        commandParts.add(cmdPart);
       }
     }
-    return args;
+    return commandParts;
   }
 
   public static boolean inQuotes(String str) {

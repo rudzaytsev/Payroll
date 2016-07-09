@@ -1,13 +1,10 @@
 package cmds;
 
-import org.junit.Ignore;
+
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
-import java.util.Arrays;
-
-import static org.junit.Assert.*;
 
 public class AddEmpCmdTest {
 
@@ -63,9 +60,17 @@ public class AddEmpCmdTest {
   public void employeeAddressWithoutQuotes() {
     String commandStr = "AddEmp 1 \"David Cameron\" Downing Street 5; London; England H 1000";
     Command command = new AddEmpCmd(commandStr);
-    System.out.println(Arrays.toString(((AbstractCommand) command).args.toArray()));
     expectedException.expect(ValidationException.class);
     expectedException.expectMessage("Employee address should be in quotes");
+    command.validate();
+  }
+
+  @Test
+  public void notFullFormat() {
+    String commandStr = "AddEmp 1 \"David Cameron\" \"Downing Street 5, London, England\"";
+    Command command = new AddEmpCmd(commandStr);
+    expectedException.expect(ValidationException.class);
+    expectedException.expectMessage("AddEmp command should contains minimum 5 arguments");
     command.validate();
   }
 
