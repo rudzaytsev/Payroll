@@ -22,4 +22,14 @@ public class DBTest {
     Employee storedEmployee = db.findBy(employee.id);
     assertEquals(employee, storedEmployee);
   }
+
+  @Test
+  public void deleteEmployeeTest() throws Exception {
+    DB db = DB.getInstance();
+    Employee employee = new Employee(25, "Donald Trump", "USA");
+    db.save(employee);
+    db.delete(25);
+    Employee deletedEmployee = db.findBy(25);
+    assertNull(deletedEmployee);
+  }
 }
