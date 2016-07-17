@@ -144,13 +144,8 @@ public class AddEmpCmdTest {
     command.execute();
     DB db = DB.getInstance();
     Employee employee = db.findBy(1);
-    System.out.println(employee.id);
-    System.out.println(employee.name);
-    System.out.println(employee.address);
-    System.out.println(employee.paymentStrategy);
     Employee expected = new Employee(1,"\"David Cameron\"",
                                      "\"Downing Street 5, London, England\"");
-    System.out.println(expected.equals(employee));
     assertEquals(expected, employee);
     assertEquals("C:1000:200", employee.paymentStrategy);
 
