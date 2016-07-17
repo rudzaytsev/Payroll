@@ -20,7 +20,7 @@ public abstract class AbstractCommand implements Command {
     List<String> cmdParts = toCommandParts(cmd);
     if (!cmdParts.isEmpty()) {
       commandName = cmdParts.get(0);
-      if (cmdParts.size() > 2) {
+      if (cmdParts.size() >= 2) {
         args = cmdParts.subList(1, cmdParts.size());
       }
     }
