@@ -15,15 +15,18 @@ public class CommandsFactory {
     return factory;
   }
 
-  public Command createCommand(String cmd) {
-    if (cmd.startsWith("AddEmp")) {
-      return new AddEmpCmd(cmd);
+  public Command createCommand(String commandStr) {
+    if (commandStr.startsWith("AddEmp")) {
+      return new AddEmpCmd(commandStr);
     }
-    else if (cmd.equals("exit")) {
-      return new ExitCmd(cmd);
+    else if (commandStr.startsWith("DelEmp")) {
+      return new DelEmpCmd(commandStr);
+    }
+    else if (commandStr.equals("exit")) {
+      return new ExitCmd(commandStr);
     }
     else {
-      return new EmptyCmd(cmd);
+      return new EmptyCmd(commandStr);
     }
   }
 }

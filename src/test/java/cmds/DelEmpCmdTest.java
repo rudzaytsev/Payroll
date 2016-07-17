@@ -82,4 +82,14 @@ public class DelEmpCmdTest {
     Employee employee = db.findBy(1);
     assertNull(employee);
   }
+
+  @Test
+  public void noSuchEmployeeToDelete() {
+    String commandStr = "DelEmp 111";
+    Command command = new DelEmpCmd(commandStr);
+    command.validate();
+    expectedException.expect(CommandExecutionException.class);
+    expectedException.expectMessage("No Entity with id = 111 to delete");
+    command.execute();
+  }
 }

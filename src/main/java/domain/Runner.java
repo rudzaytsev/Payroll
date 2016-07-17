@@ -2,6 +2,7 @@ package domain;
 
 
 import cmds.Command;
+import cmds.CommandExecutionException;
 import cmds.CommandsFactory;
 import cmds.ValidationException;
 
@@ -52,6 +53,9 @@ public class Runner {
       command.execute();
     }
     catch (ValidationException e) {
+      System.out.println(e.getMessage());
+    }
+    catch (CommandExecutionException e) {
       System.out.println(e.getMessage());
     }
   }

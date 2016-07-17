@@ -5,6 +5,8 @@ import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
+import static java.lang.String.format;
+
 public class DB {
 
   private static DB db;
@@ -35,6 +37,8 @@ public class DB {
   }
 
   public void delete(Integer employeeId) {
-    entities.removeIf((employee) -> employee.id.equals(employeeId));
+    boolean deleted = entities.removeIf((employee) -> employee.id.equals(employeeId));
+    if (!deleted)
+      throw new DataBaseException(format("No Entity with id = %d to delete", employeeId));
   }
 }
