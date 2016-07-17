@@ -39,4 +39,14 @@ public class Employee {
     result = 31 * result + address.hashCode();
     return result;
   }
+
+  @Override
+  public String toString() {
+    return "Employee{" +
+      "address='" + address + '\'' +
+      ", id=" + id +
+      ", name='" + name + '\'' +
+      ", paymentStrategy='" + paymentStrategy + '\'' +
+      '}';
+  }
 }

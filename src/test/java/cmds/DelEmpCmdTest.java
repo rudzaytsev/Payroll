@@ -1,5 +1,9 @@
 package cmds;
 
+import domain.DB;
+import domain.Employee;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -7,6 +11,19 @@ import org.junit.rules.ExpectedException;
 import static org.junit.Assert.*;
 
 public class DelEmpCmdTest {
+
+  @After
+  public void tearDown() throws Exception {
+    DB.getInstance().clearDB();
+  }
+
+  @Before
+  public void setUp() throws Exception {
+    DB db = DB.getInstance();
+    db.clearDB();
+    db.save(new Employee(1, "Chuck Noris", "Texas, USA"));
+
+  }
 
   @Rule
   public ExpectedException expectedException = ExpectedException.none();
@@ -54,4 +71,15 @@ public class DelEmpCmdTest {
     command.validate();
   }
 
+  @Test
+  public void executeTest() throws Exception {
+    String commandStr = "DelEmp 1";
+    Command command = new DelEmpCmd(commandStr);
+    command.validate();
+    command.execute();
+
+    DB db = DB.getInstance();
+    Employee employee = db.findBy(1);
+    assertNull(employee);
+  }
 }

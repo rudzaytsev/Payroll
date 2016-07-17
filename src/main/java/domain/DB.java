@@ -33,4 +33,8 @@ public class DB {
   public void clearDB() {
     entities.clear();
   }
+
+  public void delete(Integer employeeId) {
+    entities.removeIf((employee) -> employee.id.equals(employeeId));
+  }
 }
