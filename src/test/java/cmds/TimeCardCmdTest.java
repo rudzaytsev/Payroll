@@ -1,5 +1,9 @@
 package cmds;
 
+import domain.DB;
+import domain.Employee;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -7,6 +11,24 @@ import org.junit.rules.ExpectedException;
 import static org.junit.Assert.*;
 
 public class TimeCardCmdTest {
+
+  @After
+  public void tearDown() throws Exception {
+    DB.getInstance().clearDB();
+  }
+
+  @Before
+  public void setUp() throws Exception {
+    DB db = DB.getInstance();
+    db.clearDB();
+    Employee employee = new Employee(27, "Sam Black", "London, England");
+    employee.paymentStrategy = "H";
+    db.save(employee);
+
+    Employee otherEmployee = new Employee(30, "Boris Johnson", "London, England");
+    otherEmployee.paymentStrategy = "C";
+    db.save(otherEmployee);
+  }
 
   @Rule
   public ExpectedException expectedException = ExpectedException.none();
@@ -83,7 +105,30 @@ public class TimeCardCmdTest {
   }
 
   @Test
-  public void testExecute() throws Exception {
+  public void employeeForTimeCardNotFound() throws Exception {
+    String commandStr = "TimeCard 22 01.02.2016 8";
+    Command command = new TimeCardCmd(commandStr);
+    expectedException.expect(CommandExecutionException.class);
+    expectedException.expectMessage("Employee for time card not found");
+    command.validate();
+    command.execute();
+  }
 
+  @Test
+  public void employeeLinkedToTimeCardIsNotChargedHourly() throws Exception {
+    String commandStr = "TimeCard 30 01.02.2016 8";
+    Command command = new TimeCardCmd(commandStr);
+    expectedException.expect(CommandExecutionException.class);
+    expectedException.expectMessage("Employee linked to time card is not charged hourly");
+    command.validate();
+    command.execute();
+  }
+
+  @Test
+  public void successExecuteTest() throws Exception {
+    String commandStr = "TimeCard 27 01.02.2016 8";
+    Command command = new TimeCardCmd(commandStr);
+    command.validate();
+    command.execute();
   }
 }

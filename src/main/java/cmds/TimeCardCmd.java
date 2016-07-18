@@ -1,8 +1,12 @@
 package cmds;
 
 
+import domain.DB;
+
+import domain.Employee;
+
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
+
 import java.time.format.DateTimeParseException;
 
 import static java.lang.Integer.parseInt;
@@ -79,6 +83,15 @@ public class TimeCardCmd extends AbstractCommand {
 
   @Override
   public void execute() {
+    DB db = DB.getInstance();
+    Employee employee = db.findBy(employeeId);
+    if (employee == null)
+      throw new CommandExecutionException("Employee for time card not found");
 
+    if (!employee.isChargedHourly())
+      throw new CommandExecutionException("Employee linked to time card is not charged hourly");
+
+    employee.timeCard = new TimeCard(timeCardDate, workingTimeHours);
+    db.save(employee);
   }
 }

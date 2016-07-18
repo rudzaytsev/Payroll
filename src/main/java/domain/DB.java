@@ -1,6 +1,5 @@
 package domain;
 
-
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
@@ -41,4 +40,6 @@ public class DB {
     if (!deleted)
       throw new DataBaseException(format("No Entity with id = %d to delete", employeeId));
   }
+
+
 }

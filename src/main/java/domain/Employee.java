@@ -1,6 +1,8 @@
 package domain;
 
 
+import cmds.TimeCard;
+
 public class Employee {
 
 
@@ -11,6 +13,8 @@ public class Employee {
   public String address;
 
   public String paymentStrategy;
+
+  public TimeCard timeCard;
 
   public Employee(Integer id, String name, String address) {
     this.address = address;
@@ -25,11 +29,10 @@ public class Employee {
 
     Employee employee = (Employee) o;
 
-    if (!address.equals(employee.address)) return false;
-    if (!id.equals(employee.id)) return false;
-    if (!name.equals(employee.name)) return false;
+    return address.equals(employee.address) &&
+           id.equals(employee.id) &&
+           name.equals(employee.name);
 
-    return true;
   }
 
   @Override
@@ -49,4 +52,10 @@ public class Employee {
       ", paymentStrategy='" + paymentStrategy + '\'' +
       '}';
   }
+
+  public boolean isChargedHourly() {
+    return "H".equals(paymentStrategy);
+  }
+
+
 }

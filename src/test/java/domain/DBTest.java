@@ -1,12 +1,17 @@
 package domain;
 
 
+import static java.time.Month.*;
 import static org.junit.Assert.*;
 
+import cmds.TimeCard;
 import org.junit.After;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+
+import java.time.LocalDate;
+
 
 public class DBTest {
 
@@ -45,5 +50,19 @@ public class DBTest {
     expectedException.expect(DataBaseException.class);
     expectedException.expectMessage("No Entity with id = 111 to delete");
     db.delete(111);
+  }
+
+  @Test
+  public void saveTimeCard() throws Exception {
+    DB db = DB.getInstance();
+    TimeCard timeCard = new TimeCard(LocalDate.of(2016, JANUARY, 22), 10);
+    Employee employee = new Employee(35, "Jack Callback", "NYC, USA");
+    employee.paymentStrategy = "H";
+    employee.timeCard = timeCard;
+    db.save(employee);
+    Employee foundEmployee = db.findBy(35);
+    assertNotNull(foundEmployee);
+    assertNotNull(foundEmployee.timeCard);
+    assertEquals(new TimeCard(LocalDate.of(2016, JANUARY, 22), 10), foundEmployee.timeCard);
   }
 }
