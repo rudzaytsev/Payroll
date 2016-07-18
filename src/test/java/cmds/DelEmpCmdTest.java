@@ -12,6 +12,9 @@ import static org.junit.Assert.*;
 
 public class DelEmpCmdTest {
 
+  @Rule
+  public ExpectedException expectedException = ExpectedException.none();
+
   @After
   public void tearDown() throws Exception {
     DB.getInstance().clearDB();
@@ -24,9 +27,6 @@ public class DelEmpCmdTest {
     db.save(new Employee(1, "Chuck Noris", "Texas, USA"));
 
   }
-
-  @Rule
-  public ExpectedException expectedException = ExpectedException.none();
 
   @Test
   public void testValidate() throws Exception {
