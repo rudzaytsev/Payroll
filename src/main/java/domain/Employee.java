@@ -57,7 +57,7 @@ public class Employee {
   }
 
   public boolean isChargedHourly() {
-    return "H".equals(paymentStrategy);
+    return paymentStrategy != null && paymentStrategy.startsWith("H");
   }
 
 

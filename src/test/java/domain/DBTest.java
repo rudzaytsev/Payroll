@@ -3,6 +3,7 @@ package domain;
 
 import static java.time.Month.*;
 import static org.junit.Assert.*;
+import static utils.DateUtils.date;
 
 import cmds.TimeCard;
 import org.junit.After;
@@ -55,7 +56,7 @@ public class DBTest {
   @Test
   public void saveTimeCard() throws Exception {
     DB db = DB.getInstance();
-    TimeCard timeCard = new TimeCard(LocalDate.of(2016, JANUARY, 22), 10);
+    TimeCard timeCard = new TimeCard(date(2016, JANUARY, 22), 10);
     Employee employee = new Employee(35, "Jack Callback", "NYC, USA");
     employee.paymentStrategy = "H";
     employee.addTimeCard(timeCard);
@@ -63,6 +64,6 @@ public class DBTest {
     Employee foundEmployee = db.findBy(35);
     assertNotNull(foundEmployee);
     assertEquals(1, foundEmployee.timeCards.size());
-    assertEquals(new TimeCard(LocalDate.of(2016, JANUARY, 22), 10), foundEmployee.timeCards.get(0));
+    assertEquals(new TimeCard(date(2016, JANUARY, 22), 10), foundEmployee.timeCards.get(0));
   }
 }

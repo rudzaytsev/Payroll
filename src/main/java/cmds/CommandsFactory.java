@@ -22,6 +22,9 @@ public class CommandsFactory {
     else if (commandStr.startsWith("DelEmp")) {
       return new DelEmpCmd(commandStr);
     }
+    else if (commandStr.startsWith("TimeCard")) {
+      return new TimeCardCmd(commandStr);
+    }
     else if (commandStr.equals("exit")) {
       return new ExitCmd(commandStr);
     }
