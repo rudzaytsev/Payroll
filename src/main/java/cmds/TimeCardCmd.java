@@ -91,7 +91,8 @@ public class TimeCardCmd extends AbstractCommand {
     if (!employee.isChargedHourly())
       throw new CommandExecutionException("Employee linked to time card is not charged hourly");
 
-    employee.timeCard = new TimeCard(timeCardDate, workingTimeHours);
+    TimeCard timeCard = new TimeCard(timeCardDate, workingTimeHours);
+    employee.addTimeCard(timeCard);
     db.save(employee);
   }
 }

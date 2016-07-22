@@ -58,11 +58,11 @@ public class DBTest {
     TimeCard timeCard = new TimeCard(LocalDate.of(2016, JANUARY, 22), 10);
     Employee employee = new Employee(35, "Jack Callback", "NYC, USA");
     employee.paymentStrategy = "H";
-    employee.timeCard = timeCard;
+    employee.addTimeCard(timeCard);
     db.save(employee);
     Employee foundEmployee = db.findBy(35);
     assertNotNull(foundEmployee);
-    assertNotNull(foundEmployee.timeCard);
-    assertEquals(new TimeCard(LocalDate.of(2016, JANUARY, 22), 10), foundEmployee.timeCard);
+    assertEquals(1, foundEmployee.timeCards.size());
+    assertEquals(new TimeCard(LocalDate.of(2016, JANUARY, 22), 10), foundEmployee.timeCards.get(0));
   }
 }

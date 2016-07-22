@@ -3,6 +3,9 @@ package domain;
 
 import cmds.TimeCard;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Employee {
 
 
@@ -14,7 +17,7 @@ public class Employee {
 
   public String paymentStrategy;
 
-  public TimeCard timeCard;
+  public List<TimeCard> timeCards = new ArrayList<>();
 
   public Employee(Integer id, String name, String address) {
     this.address = address;
@@ -58,4 +61,7 @@ public class Employee {
   }
 
 
+  public void addTimeCard(TimeCard timeCard) {
+    timeCards.add(timeCard);
+  }
 }
