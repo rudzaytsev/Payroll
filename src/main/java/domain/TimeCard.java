@@ -1,4 +1,4 @@
-package cmds;
+package domain;
 
 import java.time.LocalDate;
 

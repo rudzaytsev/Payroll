@@ -5,13 +5,10 @@ import static java.time.Month.*;
 import static org.junit.Assert.*;
 import static utils.DateUtils.date;
 
-import cmds.TimeCard;
 import org.junit.After;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
-
-import java.time.LocalDate;
 
 
 public class DBTest {
