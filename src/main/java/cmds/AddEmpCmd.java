@@ -110,7 +110,5 @@ public class AddEmpCmd extends AbstractCommand {
       employee.paymentStrategy += (":" + commissionRate);
 
     db.save(employee);
-
-
   }
 }
