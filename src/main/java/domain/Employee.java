@@ -16,6 +16,7 @@ public class Employee {
   public String paymentStrategy;
 
   public List<TimeCard> timeCards = new ArrayList<>();
+  public List<SalesReceipt> salesReceipts = new ArrayList<>();
 
   public Employee(Integer id, String name, String address) {
     this.address = address;
@@ -61,5 +62,13 @@ public class Employee {
 
   public void addTimeCard(TimeCard timeCard) {
     timeCards.add(timeCard);
+  }
+
+  public boolean isChargedCommission() {
+    return paymentStrategy != null && paymentStrategy.startsWith("C");
+  }
+
+  public void addSalesReceipt(SalesReceipt salesReceipt) {
+    salesReceipts.add(salesReceipt);
   }
 }

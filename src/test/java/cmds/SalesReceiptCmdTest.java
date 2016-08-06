@@ -1,12 +1,39 @@
 package cmds;
 
+import domain.DB;
+import domain.Employee;
+import domain.SalesReceipt;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+import utils.DateUtils;
 
+
+
+import static java.time.Month.*;
 import static org.junit.Assert.*;
 
 public class SalesReceiptCmdTest {
+
+  @After
+  public void tearDown() throws Exception {
+    DB.getInstance().clearDB();
+  }
+
+  @Before
+  public void setUp() throws Exception {
+    DB db = DB.getInstance();
+    db.clearDB();
+    Employee employee = new Employee(22, "Sam Black", "London, England");
+    employee.paymentStrategy = "H:700";
+    db.save(employee);
+
+    Employee otherEmployee = new Employee(26, "Boris Johnson", "London, England");
+    otherEmployee.paymentStrategy = "C:100:20";
+    db.save(otherEmployee);
+  }
 
   @Rule
   public ExpectedException expectedException = ExpectedException.none();
@@ -54,10 +81,56 @@ public class SalesReceiptCmdTest {
     command.validate();
   }
 
-  /*
+  @Test
+  public void amountShouldNotBeNegative() throws Exception {
+    String commandStr = "SalesReceipt 22 22.02.2016 -8";
+    Command command = new SalesReceiptCmd(commandStr);
+    expectedException.expect(ValidationException.class);
+    expectedException.expectMessage("Sales Receipt amount should not be negative");
+    command.validate();
+  }
+
+  @Test
+  public void amountShouldHaveIntegerType() throws Exception {
+    String commandStr = "SalesReceipt 22 22.02.2016 -V8";
+    Command command = new SalesReceiptCmd(commandStr);
+    expectedException.expect(ValidationException.class);
+    expectedException.expectMessage("Sales Receipt amount should have Integer type");
+    command.validate();
+  }
+
+
   @Test
   public void testExecute() throws Exception {
-
+    String commandStr = "SalesReceipt 22 22.02.2016 100";
+    Command command = new SalesReceiptCmd(commandStr);
+    command.validate();
+    expectedException.expect(CommandExecutionException.class);
+    expectedException.expectMessage("Employee with id = 22 is not charged commission");
+    command.execute();
   }
-  */
+
+
+  @Test
+  public void salesReceiptForNotExistedEmployee() throws Exception {
+    String commandStr = "SalesReceipt 35 22.02.2016 100";
+    Command command = new SalesReceiptCmd(commandStr);
+    command.validate();
+    expectedException.expect(CommandExecutionException.class);
+    expectedException.expectMessage("Employee with id = 35 doesn't exist");
+    command.execute();
+  }
+
+  @Test
+  public void salesReceiptWellDone() throws Exception {
+    String commandStr = "SalesReceipt 26 22.02.2016 100";
+    Command command = new SalesReceiptCmd(commandStr);
+    command.validate();
+    command.execute();
+    DB db = DB.getInstance();
+    Employee employee = db.findBy(26);
+    SalesReceipt salesReceipt = new SalesReceipt(DateUtils.date(2016, FEBRUARY, 22), 100);
+    assertFalse(employee.salesReceipts.isEmpty());
+    assertEquals(salesReceipt, employee.salesReceipts.get(0));
+  }
 }
