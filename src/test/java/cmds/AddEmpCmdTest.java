@@ -1,6 +1,7 @@
 package cmds;
 
 
+import domain.CommissionPaid;
 import domain.DB;
 import domain.Employee;
 import org.junit.After;
@@ -147,7 +148,7 @@ public class AddEmpCmdTest {
     Employee expected = new Employee(1,"\"David Cameron\"",
                                      "\"Downing Street 5, London, England\"");
     assertEquals(expected, employee);
-    assertEquals("C:1000:200", employee.paymentStrategy);
+    assertEquals(new CommissionPaid(1000,200), employee.paymentStrategy);
 
   }
 

@@ -1,7 +1,9 @@
 package cmds;
 
+import domain.CommissionPaid;
 import domain.DB;
 import domain.Employee;
+import domain.HourlyPaid;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
@@ -22,11 +24,11 @@ public class TimeCardCmdTest {
     DB db = DB.getInstance();
     db.clearDB();
     Employee employee = new Employee(27, "Sam Black", "London, England");
-    employee.paymentStrategy = "H";
+    employee.paymentStrategy = new HourlyPaid(200);
     db.save(employee);
 
     Employee otherEmployee = new Employee(30, "Boris Johnson", "London, England");
-    otherEmployee.paymentStrategy = "C";
+    otherEmployee.paymentStrategy = new CommissionPaid(400, 20);
     db.save(otherEmployee);
   }
 

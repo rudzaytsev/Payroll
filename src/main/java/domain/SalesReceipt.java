@@ -7,6 +7,8 @@ public class SalesReceipt {
   public LocalDate date;
   public Integer amount;
 
+  public boolean paid;
+
   public SalesReceipt(LocalDate date, Integer amount) {
     this.amount = amount;
     this.date = date;

@@ -55,7 +55,7 @@ public class DBTest {
     DB db = DB.getInstance();
     TimeCard timeCard = new TimeCard(date(2016, JANUARY, 22), 10);
     Employee employee = new Employee(35, "Jack Callback", "NYC, USA");
-    employee.paymentStrategy = "H";
+    employee.paymentStrategy = new HourlyPaid(200);
     employee.addTimeCard(timeCard);
     db.save(employee);
     Employee foundEmployee = db.findBy(35);

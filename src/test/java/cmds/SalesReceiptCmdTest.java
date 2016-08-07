@@ -1,8 +1,6 @@
 package cmds;
 
-import domain.DB;
-import domain.Employee;
-import domain.SalesReceipt;
+import domain.*;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
@@ -27,11 +25,11 @@ public class SalesReceiptCmdTest {
     DB db = DB.getInstance();
     db.clearDB();
     Employee employee = new Employee(22, "Sam Black", "London, England");
-    employee.paymentStrategy = "H:700";
+    employee.paymentStrategy = new HourlyPaid(700);
     db.save(employee);
 
     Employee otherEmployee = new Employee(26, "Boris Johnson", "London, England");
-    otherEmployee.paymentStrategy = "C:100:20";
+    otherEmployee.paymentStrategy = new CommissionPaid(100, 20);
     db.save(otherEmployee);
   }
 

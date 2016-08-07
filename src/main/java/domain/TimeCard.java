@@ -8,6 +8,8 @@ public class TimeCard {
   LocalDate date;
   Integer hours;
 
+  boolean paid;
+
   public TimeCard(LocalDate date, Integer hours) {
     this.date = date;
     this.hours = hours;

@@ -14,16 +14,16 @@ public class EmployeeTest {
 
   @Test
   public void isChargedHourlyTest() throws Exception {
-    employee.paymentStrategy = "H:500";
+    employee.paymentStrategy = new HourlyPaid(500);
     assertTrue(employee.isChargedHourly());
   }
 
 
   @Test
   public void isNotChargedHourly() throws Exception {
-    employee.paymentStrategy = "S:900";
+    employee.paymentStrategy = new MonthlyPaid(900);
     assertFalse(employee.isChargedHourly());
-    employee.paymentStrategy = "C:200:80";
+    employee.paymentStrategy = new CommissionPaid(200, 80);
     assertFalse(employee.isChargedHourly());
     employee.paymentStrategy = null;
     assertFalse(employee.isChargedHourly());
@@ -37,15 +37,15 @@ public class EmployeeTest {
 
   @Test
   public void isChargedCommissionTest() throws Exception {
-    employee.paymentStrategy = "C:500:20";
+    employee.paymentStrategy = new CommissionPaid(500,20);
     assertTrue(employee.isChargedCommission());
   }
 
   @Test
   public void isNotChargedCommission() throws Exception {
-    employee.paymentStrategy = "S:900";
+    employee.paymentStrategy = new MonthlyPaid(900);
     assertFalse(employee.isChargedCommission());
-    employee.paymentStrategy = "H:1900";
+    employee.paymentStrategy = new HourlyPaid(1900);
     assertFalse(employee.isChargedCommission());
     employee.paymentStrategy = null;
     assertFalse(employee.isChargedCommission());

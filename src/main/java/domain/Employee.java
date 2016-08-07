@@ -1,6 +1,7 @@
 package domain;
 
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,7 +14,7 @@ public class Employee {
 
   public String address;
 
-  public String paymentStrategy;
+  public PaymentStrategy paymentStrategy;
 
   public List<TimeCard> timeCards = new ArrayList<>();
   public List<SalesReceipt> salesReceipts = new ArrayList<>();
@@ -56,7 +57,7 @@ public class Employee {
   }
 
   public boolean isChargedHourly() {
-    return paymentStrategy != null && paymentStrategy.startsWith("H");
+    return paymentStrategy != null && paymentStrategy instanceof HourlyPaid;
   }
 
 
@@ -65,10 +66,14 @@ public class Employee {
   }
 
   public boolean isChargedCommission() {
-    return paymentStrategy != null && paymentStrategy.startsWith("C");
+    return paymentStrategy != null && paymentStrategy instanceof CommissionPaid;
   }
 
   public void addSalesReceipt(SalesReceipt salesReceipt) {
     salesReceipts.add(salesReceipt);
+  }
+
+  public Cheque calculatePayment(LocalDate paymentDate) {
+    return paymentStrategy.calculatePay(this, paymentDate);
   }
 }
